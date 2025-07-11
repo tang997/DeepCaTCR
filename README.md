@@ -1,8 +1,8 @@
 # DeepCaTCR
-DeepCaTCR is a deep learning framework, aimed at enhancing the prediction accuracy for identifying early-stage cancer patients
-using TCR repertoire.
+## A Deep Learning Framework for Early Cancer Detection via TCR Repertoire
+DeepCaTCR is an advanced deep learning framework designed to enhance prediction accuracy for identifying early-stage cancer patients through T-cell receptor (TCR) repertoire. This tool leverages state-of-the-art neural networks to extract meaningful patterns from TCR sequences, enabling non-invasive cancer detection.
 <p float="left">
-  <img src="./Fig/tu1.png"/>
+  <img src="./Fig/Fig1.png"/>
 </p>
 
 ### Installation
@@ -11,39 +11,81 @@ From Source:
 
 ```
  git clone https://github.com/tang997/DeepCaTCR.git
- cd DeepTRB
-```
-Running the DeepCaTCR requires python3.6, numpy version 1.19.2, torch version 1.6.0, torchvision version 0.7.0, 
-pandas version 1.1.2 and scikit-learn version 0.24.2 to be installed. 
-
-If they are not installed on your environment, please first install numpy, pandas, and scikit-learn
-by running the following command:
-
-```
- pip install -r requirements.txt
-```
-Next, Please select the most suitable command from the following options to install torch and torchvision 
-based on your terminal’s specific situation:
-
-For OSX:
-```
- pip install torch==1.6.0 torchvision==0.7.0
+ cd DeepCaTCR
 ```
 
-For Linux and Windows:
+### Python package versions
+
+Running the DeepCaTCR requires the Python packages:
+
 ```
-# CUDA 10.2
-pip install torch==1.6.0 torchvision==0.7.0
-
-# CUDA 10.1
-pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
-
-# CUDA 9.2
-pip install torch==1.6.0+cu92 torchvision==0.7.0+cu92 -f https://download.pytorch.org/whl/torch_stable.html
-
-# CPU only
-pip install torch==1.6.0+cpu torchvision==0.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+Python          3.8.10
+numpy           1.21.4
+torch           1.10.0+cu113
+matplotlib      3.5.0
+scikit-learn    1.3.2
+```
+## Usage Guide
+### Using Pre-trained Models
+Predict cancer scores for TCR repertoire samples:
+```
+python Repertoire_prection.py --input_dir example_repertoire --output_dir repertoire_score --model_path pre-trained_model/my_test_DeepCaTCR_best_model.pth 
+```
+Output format (repertoire_score/cancer_score.csv):
+```
+Sample,meanscore,variance
+HIP5_CD8_mem_3of4.csv_ClusteredCDR3s_7.5.txt,0.300047116299764,0.06557724538907739
+HIP5_CD8_mem_4of4.csv_ClusteredCDR3s_7.5.txt,0.29473790610951495,0.061405114820069336
+HIP5_CD8_naive_1of3.csv_ClusteredCDR3s_7.5.txt,0.13423678138043763,0.031599820906940995
+HIP5_CD8_mem_1of4.csv_ClusteredCDR3s_7.5.txt,0.27335596794187256,0.05694339281784166
+......
 ```
 
+### Evaluating Model Performance
 
+Assess pre-trained model metrics:
 
+```
+python DeepCaTCR.py --evaluate --record_dir pre-trained_model --sample_name my_test
+```
+Output (model_performance/evaluation_results.txt):
+```
+Model Evaluation Results:
+Model: my_test_DeepCaTCR_best_model.pth
+ACC: 0.8072
+AUC: 0.8643
+SEN: 0.6041
+SPE: 0.9084
+F1: 0.6758
+MCC: 0.5492
+```
+
+### Visualizing Predictive Motifs
+
+Generate interpretable motif visualizations:
+
+```
+python DeepCaTCR.py --visualize --record_dir pre-trained_model --sample_name my_test
+```
+Output: SVG files containing motif visualizations in `model_performance/`
+
+### Training DeepCaTCR
+
+Train your own DeepCaTCR model:
+
+```
+python DeepCaTCR.py --train --record_dir Results --sample_name my_test
+```
+### Dataset split
+
+Split dataset into training and test sets:
+
+```
+python dataset_split.py
+```
+Output (dataset_split_info.txt):
+```
+Random Seed: 42
+caTCRs Dataset: Total=30000, Train=24000, Test=6000
+non-caTCRs Dataset: Total=59851, Train=47880, Test=11971
+```

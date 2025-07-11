@@ -1,0 +1,3 @@
+Random Seed: 42
+caTCRs Dataset: Total=30000, Train=24000, Test=6000
+non-caTCRs Dataset: Total=59851, Train=47880, Test=11971

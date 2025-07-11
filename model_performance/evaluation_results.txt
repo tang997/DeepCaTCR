@@ -1,0 +1,8 @@
+Model Evaluation Results:
+Model: my_test11_DeepCaTCR_best_model.pth
+ACC: 0.8072
+AUC: 0.8643
+SEN: 0.6041
+SPE: 0.9084
+F1: 0.6758
+MCC: 0.5492
